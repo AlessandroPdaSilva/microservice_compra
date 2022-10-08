@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class Pedido implements Serializable{
     @NotBlank
     private String produto;
 
-    @NotBlank
+    @NotNull
     @Min(1)
     private BigDecimal valor;
 
