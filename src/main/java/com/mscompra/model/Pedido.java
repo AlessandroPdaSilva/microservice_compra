@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -28,10 +30,17 @@ public class Pedido implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     private String produto;
+
+    @NotBlank
+    @Min(1)
     private BigDecimal valor;
+
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date dataCompra;
+
+    @NotBlank
     private String cpfCliente;
 
 
