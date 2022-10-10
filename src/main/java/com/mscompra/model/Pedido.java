@@ -23,6 +23,7 @@ import java.util.Date;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Entity
+@ToString
 public class Pedido implements Serializable{
 
     private static final long serialVersionUID = 1L;
