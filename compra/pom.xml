@@ -11,6 +11,7 @@
 	<groupId>com.mscompra</groupId>
 	<artifactId>mscompra</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>mscompra</name>
 	<description>Microservico de compra</description>
 	<properties>
@@ -68,6 +69,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
