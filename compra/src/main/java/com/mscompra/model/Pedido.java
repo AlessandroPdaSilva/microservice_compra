@@ -45,5 +45,7 @@ public class Pedido implements Serializable{
     @NotBlank
     private String cpfCliente;
 
+    private String cep;
+
 
 }

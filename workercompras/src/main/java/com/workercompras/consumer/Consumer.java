@@ -1,11 +1,13 @@
 package com.workercompras.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.workercompras.model.Endereco;
 import com.workercompras.model.Pedido;
+import com.workercompras.service.CepService;
 import com.workercompras.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.var;
+
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,17 @@ public class Consumer implements Serializable {
 
     private final ObjectMapper mapper;
     private final EmailService emailService;
+    private final CepService cepService;
 
     // ESCUTANDO MENSAGEM
     @RabbitListener(queues = {"${queue.name}"})
     public void consumer(@Payload Message message) throws IOException {
         var pedido = mapper.readValue(message.getBody(), Pedido.class);
         System.out.println("Mensagem recebida: " + pedido);
-        emailService.notificarCliente("alessandropds55@gmail.com");
+        //emailService.notificarCliente("alessandropds55@gmail.com");
+        Endereco endereco = cepService.buscarCep(pedido.getCep());
+        System.out.println(endereco);
+
     }
 
 }
