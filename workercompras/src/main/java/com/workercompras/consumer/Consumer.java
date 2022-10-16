@@ -34,6 +34,8 @@ public class Consumer implements Serializable {
         var pedido = mapper.readValue(message.getBody(), Pedido.class);
         System.out.println("Mensagem recebida: " + pedido);
         //emailService.notificarCliente("alessandropds55@gmail.com");
+        emailService.notificarCliente(pedido);
+
         Endereco endereco = cepService.buscarCep(pedido.getCep());
         System.out.println(endereco);
 
