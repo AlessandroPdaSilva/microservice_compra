@@ -3,16 +3,21 @@ package com.workervalidador.service;
 import com.workervalidador.model.Cartao;
 import com.workervalidador.model.Pedido;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 public class ValidadorService {
 
+    @Autowired
+    private EmailService emailService;
 
     public void validarPedido(Pedido pedido) throws Exception {
         validarLimiteDisponivel(pedido.getCartao());
         validarCompraComLimite(pedido);
+
+        emailService.notificarClienteCompraComSucesso(pedido.getEmail());
     }
 
     private void validarCompraComLimite(Pedido pedido) throws Exception {
