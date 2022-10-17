@@ -3,6 +3,7 @@ package com.workervalidador.consumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.workervalidador.model.Pedido;
+import com.workervalidador.service.ValidadorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -20,11 +21,17 @@ import java.io.IOException;
 public class Consumer {
 
     private final ObjectMapper mapper;
+    private final ValidadorService validadorService;
 
     @RabbitListener(queues = {"${queue.name}"})
-    public void consumer(@Payload Message message) throws IOException {
+    public void consumer(@Payload Message message) throws Exception {
+
+        // Payload
         var pedido = mapper.readValue(message.getBody(), Pedido.class);
         log.info("Pedido recebido no Validador: {}", pedido);
+
+        // validando pedido (cartao)
+        validadorService.validarPedido(pedido);
     }
 
 }
