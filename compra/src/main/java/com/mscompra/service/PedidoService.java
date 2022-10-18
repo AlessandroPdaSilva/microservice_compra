@@ -23,4 +23,11 @@ public class PedidoService {
         return pedido;
     }
 
+    // BUSCAR PEDIDO
+    public Pedido buscarId(Long id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("O pedido de id: " + id + " nao existe na base de dados!"));
+    }
+
+
 }
