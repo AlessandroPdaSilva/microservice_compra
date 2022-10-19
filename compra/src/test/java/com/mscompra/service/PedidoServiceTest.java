@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +54,7 @@ public class PedidoServiceTest {
 
 
 
-    // Metodo de teste (BUSCA PEDIDO)
+    // Metodo de teste (BUSCA PEDIDO FALHA)
     @DisplayName("Deve falhar na busca de pedido que nao existe")
     @Test
     void deveFalharNaBuscaDePedidoNaoExistente() {
@@ -63,6 +65,26 @@ public class PedidoServiceTest {
         });
 
         assertEquals("O pedido de id: " + id + " nao existe na base de dados!", exception.getMessage());
+    }
+
+
+    // Metodo de teste (BUSCA PEDIDO SUCESSO)
+    @DisplayName("Deve buscar um pedido com sucesso na base de dados")
+    @Test
+    void deveBuscarPedidoComSucesso() {
+        var pedidoMok = mock.getPedidoSalvo();
+        var id = 1L;
+
+        // RETORNO
+        Mockito.when(pedidoRepository.findById(id)).thenReturn(Optional.of(pedidoMok));
+
+        var pedidoSalvo = pedidoService.buscarId(id);
+
+        // TESTES
+        assertEquals(pedidoMok.getId(), pedidoSalvo.getId());
+        assertNotNull(pedidoSalvo);
+
+        Mockito.verify(pedidoRepository, Mockito.atLeastOnce()).findById(id);
     }
 
 }
