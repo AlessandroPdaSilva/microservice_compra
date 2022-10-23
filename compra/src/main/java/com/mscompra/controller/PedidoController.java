@@ -25,5 +25,10 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
 
+    // BUSCAR PEDIDO ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Pedido> getPedidoPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(pedidoService.buscarId(id));
+    }
 
 }

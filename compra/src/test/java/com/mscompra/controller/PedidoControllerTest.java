@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,5 +65,17 @@ public class PedidoControllerTest {
         assertEquals(pedidoSalvo.getId(), id);
         assertNotNull(pedidoSalvo);
 
+    }
+
+
+    // TESTE PARA BUSCAR PEDIDO POR ID
+    @DisplayName("GET - Deve buscar o pedido com sucesso na base de dados")
+    @Test
+    void deveBuscarPedidoComSucesso() throws Exception {
+        var id = 1L;
+
+        mockMvc.perform(get(ROTA_PEDIDO.concat("/" + id)))// GET
+                .andDo(print())// imprimir na tela
+                .andExpect(status().isOk());// status OK
     }
 }

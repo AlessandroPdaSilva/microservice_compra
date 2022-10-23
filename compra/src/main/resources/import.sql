@@ -1,0 +1,2 @@
+INSERT INTO PEDIDO (id, cep,  valor) VALUES (1, '56320000', 1000)
+
