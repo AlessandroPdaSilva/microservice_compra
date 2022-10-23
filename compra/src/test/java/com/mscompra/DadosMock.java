@@ -13,6 +13,7 @@ public class DadosMock {
                 .dataCompra(new Date())
                 .cpfCliente("111.222.333-44")
                 .cep("12345678")
+                .produto("PC")
                 .build();
     }
 
