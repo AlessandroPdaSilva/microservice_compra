@@ -3,6 +3,7 @@ package com.mscompra.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mscompra.DadosMock;
 import com.mscompra.MscompraApplication;
+import com.mscompra.model.Pedido;
 import com.mscompra.service.PedidoService;
 import lombok.var;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,9 +45,10 @@ public class PedidoControllerTest {
 
     // TESTE PARA CADASTRAR PEDIDO
     @DisplayName("POST - Deve cadastrar um novo pedido com sucesso no banco de dados")
-    @Test
+    @Test // TESTE INTEGRADO
     void deveCadastrarPedidoComSucesso() throws Exception {
         var pedidoBody = dadosMok.getPedido();
+        var id = 1L;
 
         // enjetando
         mockMvc.perform(post(ROTA_PEDIDO)// POST
@@ -53,6 +57,12 @@ public class PedidoControllerTest {
                         .accept(MediaType.APPLICATION_JSON))// tipo json
                         .andDo(print())// imprimir na tela
                         .andExpect(status().isOk());// status OK
+
+        //TESTE UNITARIO
+        Pedido pedidoSalvo = pedidoService.buscarId(id);
+
+        assertEquals(pedidoSalvo.getId(), id);
+        assertNotNull(pedidoSalvo);
 
     }
 }
