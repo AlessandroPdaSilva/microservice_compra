@@ -17,10 +17,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,4 +76,36 @@ public class PedidoControllerTest {
                 .andDo(print())// imprimir na tela
                 .andExpect(status().isOk());// status OK
     }
+
+
+    // TESTE PARA BUSCAR PEDIDO QUE NAO EXISTE
+    @DisplayName("GET - Deve falhar ao buscar pedido que nao existe")
+    @Test
+    void deveFalharAoBuscarPedidoQueNaoExiste() throws Exception {
+        var id = 2L;
+
+        mockMvc.perform(get(ROTA_PEDIDO.concat("/" + id)))// GET
+                .andDo(print())// imprimir na tela
+                .andExpect(status().isNotFound());// status Nao encontrado
+    }
+
+
+    // TESTE PARA EXCLUIR PEDIDO
+    @DisplayName("DELETE - Deve excluir um pedido com sucesso")
+    @Test
+    void deveExcluirUmPedidoComSucesso() throws Exception {
+        var id = 1L;
+
+        mockMvc.perform(delete(ROTA_PEDIDO.concat("/" + id)))// DELETE
+                .andDo(print())// imprimir na tela
+                .andExpect(status().isNoContent());// status sem conteudo
+
+        // jogar exceçao caso nao conseguir excluir
+        Throwable exception = assertThrows(Throwable.class, () -> pedidoService.excluir(id));
+
+        // mensagem da exclusao
+        assertEquals("O pedido de id: " + id + " nao existe na base de dados!", exception.getMessage());
+    }
+
+
 }

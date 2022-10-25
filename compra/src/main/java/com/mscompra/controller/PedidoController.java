@@ -31,4 +31,11 @@ public class PedidoController {
         return ResponseEntity.ok(pedidoService.buscarId(id));
     }
 
+    // EXCLUIR PEDIDO
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluir(@PathVariable Long id) {
+        pedidoService.excluir(id);
+    }
+
 }
